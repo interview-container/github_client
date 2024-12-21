@@ -4,4 +4,8 @@ source "https://rubygems.org"
 
 gem "httparty"
 gem 'dotenv'
-gem 'pry'
+
+group :development, :test do
+  gem 'minitest'
+  gem 'pry'
+end
