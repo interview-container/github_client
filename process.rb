@@ -1,5 +1,7 @@
 require_relative './client.rb'
 require 'json'
+require 'dotenv'
+Dotenv.load
 
 module Github
   class Processor
