@@ -27,8 +27,8 @@ module Github
       # the issues are sorted by the date they were closed or created, from newest to oldest.
 
       first_page = @client.get("/issues?state=#{state}")
-      response = Depaginator.new(first_page, all_pages: all_pages).response
-      issues = JSON.parse(response)
+      issues = Depaginator.new(first_page, all_pages: all_pages, client: @client).parsed_response
+      # issues = JSON.parse(response)
 
       sorted_issues = issues.sort_by do |issue|
         if state == 'closed'

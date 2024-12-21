@@ -7,6 +7,8 @@ module Github
     # It has a method called `get` that accepts a URL and returns the response
     # from the Github API
 
+    attr_accessor :repo_url
+
     def initialize(token, repo_url)
       # implement this method
       @token = token
