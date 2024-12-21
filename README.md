@@ -18,3 +18,8 @@ issues returned are open or closed, and then displays them in decreasing order o
 1. If you selected open issues, the date used is the issue's created date.
 1. Else, it's the issues' closed date.
 
+## Notes written while solving the challenge
+
+- First step was adding Depaginator in a way that didn't alter the behavior at all
+- I don't like passing "first_page" into Depaginator, may refactor
+- We may want a CLI argument for the "all pages" behavior instead of hardcoding it in process.rb
