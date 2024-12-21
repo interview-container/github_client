@@ -21,5 +21,10 @@ issues returned are open or closed, and then displays them in decreasing order o
 ## Notes written while solving the challenge
 
 - First step was adding Depaginator in a way that didn't alter the behavior at all
-- I don't like passing "first_page" into Depaginator, may refactor
+- I don't like passing "first_page" into Depaginator, should refactor. The main smell for why this is is the fact that we call the client in both process and depaginator currently. Another one is passing around the client.
 - We may want a CLI argument for the "all pages" behavior instead of hardcoding it in process.rb
+- Need errors around missing/invalid clients, especially in Depaginator
+
+## Tests
+
+Run tests with `ruby -Ilib:test test/*`. I typically write RSpec, decided to try minitest here for no reason whatsoever.
