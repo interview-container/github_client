@@ -1,4 +1,5 @@
 require_relative './client.rb'
+require_relative './depaginator.rb'
 require 'json'
 require 'dotenv'
 Dotenv.load
@@ -12,7 +13,7 @@ module Github
       @client = client
     end
 
-    def issues(open: true)
+    def issues(open: true, all_pages: false)
       # This method returns a list of issues from the Github API.
       # It accepts an optional argument called `open` that defaults to true.
       # If `open` is true, it returns only open issues.
@@ -24,9 +25,11 @@ module Github
       # Return a list of issues from the response, with each line showing the issue's title, whether it is open or closed,
       # and the date the issue was closed if it is closed, or the date the issue was created if it is open.
       # the issues are sorted by the date they were closed or created, from newest to oldest.
-      
-      response = @client.get("/issues?state=#{state}")
-      issues = JSON.parse(response.body)
+
+      first_page = @client.get("/issues?state=#{state}")
+      response = Depaginator.new(first_page, all_pages: all_pages).response
+      issues = JSON.parse(response)
+
       sorted_issues = issues.sort_by do |issue|
         if state == 'closed'
           issue['closed_at']
@@ -34,7 +37,7 @@ module Github
           issue['created_at']
         end
       end.reverse
-      
+
       sorted_issues.each do |issue|
         if issue['state'] == 'closed'
           puts "#{issue['title']} - #{issue['state']} - Closed at: #{issue['closed_at']}"
@@ -47,4 +50,4 @@ module Github
 end
 # The URL to make API requests for the IBM organization and the jobs repository
 # would be 'https://api.github.com/repos/ibm/jobs'.
-Github::Processor.new(Github::Client.new(ENV['TOKEN'], ARGV[0])).issues(open: false)
+Github::Processor.new(Github::Client.new(ENV['TOKEN'], ARGV[0])).issues(open: false, all_pages: true)
