@@ -43,6 +43,8 @@ module Github
     end
   end
 end
+
 # The URL to make API requests for the IBM organization and the jobs repository
 # would be 'https://api.github.com/repos/ibm/jobs'.
-Github::Processor.new(Github::Client.new(ENV['TOKEN'], ARGV[0])).issues(open: false)
+open_state = ARGV[1] && ARGV[1] == 'open' ? true : false
+Github::Processor.new(Github::Client.new(ENV['TOKEN'], ARGV[0])).issues(open: open_state)
